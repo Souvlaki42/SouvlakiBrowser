@@ -1,4 +1,4 @@
-# Souvlaki-Browser v0.2 Beta
+# Souvlaki-Browser v0.2
 This is my browser I am making using PyQt5
 
 Credits:
