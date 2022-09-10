@@ -1,19 +1,18 @@
-from ast import JoinedStr
 from PyQt5.QtWidgets import QMainWindow, QTabWidget, QStatusBar, QAction, QShortcut, QToolBar, QLabel, QLineEdit, QWidget
 from PyQt5.QtWebEngineWidgets import QWebEngineView, QWebEngineSettings
 from PyQt5.QtGui import QKeySequence, QIcon
-from settings import Settings
+from modules.downloading import DownloadManager
 from PyQt5.QtCore import QUrl
-import os
-
-homepage = "https://google.com"
-linkpreview = True
+from modules.settings import Settings
+from config import jsonParser
+import sys
 
 class MainWindow(QMainWindow):
 	def __init__(self):
 		super(MainWindow, self).__init__()
 
-		os.system('cls' if os.name == 'nt' else 'clear')
+		self.homepage = jsonParser.read_key("homepage")
+		self.linkpreview = jsonParser.read_key("linkpreview")
 
 		self.showMaximized()
 
@@ -41,35 +40,35 @@ class MainWindow(QMainWindow):
 
 		self.navtb.setMovable(False)
 
-		back_btn = QAction(QIcon(os.path.join('images', 'arrow-left.svg')), "Back", self)
+		back_btn = QAction(QIcon("assets/back.png"), "Back", self)
 		back_btn.setStatusTip("Back to previous page")
 		back_btn.triggered.connect(lambda: self.tabs.currentWidget().back())
 		self.navtb.addAction(back_btn)
 		back_short = QShortcut(QKeySequence("Alt+Left"), self)
 		back_short.activated.connect(lambda: self.tabs.currentWidget().back())
 
-		next_btn = QAction(QIcon(os.path.join('images', 'arrow-right.svg')), "Forward", self)
+		next_btn = QAction(QIcon("assets/next.png"), "Forward", self)
 		next_btn.setStatusTip("Forward to next page")
 		next_btn.triggered.connect(lambda: self.tabs.currentWidget().forward())
 		self.navtb.addAction(next_btn)
 		next_short = QShortcut(QKeySequence("Alt+Right"), self)
 		next_short.activated.connect(lambda: self.tabs.currentWidget().forward())
 
-		reload_btn = QAction(QIcon(os.path.join('images', 'rotate-right.png')), "Reload", self)
+		reload_btn = QAction(QIcon("assets/rotate-right.png"), "Reload", self)
 		reload_btn.setStatusTip("Reload page")
 		reload_btn.triggered.connect(lambda: self.tabs.currentWidget().reload())
 		self.navtb.addAction(reload_btn)
 		reload_short = QShortcut(QKeySequence("F5"), self)
 		reload_short.activated.connect(lambda: self.tabs.currentWidget().reload())
 
-		stop_btn = QAction(QIcon(os.path.join('images', 'cross.png')), "Stop", self)
+		stop_btn = QAction(QIcon("assets/cross.png"), "Stop", self)
 		stop_btn.setStatusTip("Stop loading current page")
 		stop_btn.triggered.connect(lambda: self.tabs.currentWidget().stop())
 		self.navtb.addAction(stop_btn)
 		stop_short = QShortcut(QKeySequence("Alt+ESC"), self)
 		stop_short.activated.connect(lambda: self.tabs.currentWidget().stop())
 
-		home_btn = QAction(QIcon(os.path.join('images', 'home.png')), "Home", self)
+		home_btn = QAction(QIcon("assets/home.png"), "Home", self)
 		home_btn.setStatusTip("Go home")
 		home_btn.triggered.connect(self.navigate_home)
 		self.navtb.addAction(home_btn)
@@ -78,7 +77,7 @@ class MainWindow(QMainWindow):
 
 		self.ssl_btn = QAction()
 		self.ssl_btn.setStatusTip("SSL/TLS Info")
-		self.ssl_btn.setIcon(QIcon(os.path.join('images', 'unlock.png')))
+		self.ssl_btn.setIcon(QIcon("assets/unlock.png"))
 		self.navtb.addAction(self.ssl_btn)
 
 		empty3_lbl = QLabel("  ",self)
@@ -94,47 +93,32 @@ class MainWindow(QMainWindow):
 		empty4_lbl = QLabel("  ",self)
 		self.navtb.addWidget(empty4_lbl)
 
-		newwindow_btn = QAction(QIcon(os.path.join('images', 'browser.png')), "New Window", self)
+		newwindow_btn = QAction(QIcon("assets/browser.png"), "New Window", self)
 		newwindow_btn.setStatusTip("Open new window")
 		newwindow_btn.triggered.connect(lambda:MainWindow())
 		self.navtb.addAction(newwindow_btn)
 		newwindow_short = QShortcut(QKeySequence("Ctrl+N"), self)
 		newwindow_short.activated.connect(lambda:MainWindow())
 
-		source_btn = QAction(QIcon(os.path.join('images', 'stats.png')), "Source", self)
+		source_btn = QAction(QIcon("assets/stats.png"), "Source", self)
 		source_btn.setStatusTip("View page source")
 		source_btn.triggered.connect(lambda:self.tabs.currentWidget().setUrl(QUrl(source())))
 		self.navtb.addAction(source_btn)
 		source_short = QShortcut(QKeySequence("Ctrl+U"), self)
 		source_short.activated.connect(lambda:self.tabs.currentWidget().setUrl(QUrl(source())))
 
-		clean_btn = QAction(QIcon(os.path.join('images', 'broom.png')), "Cleaner", self)
-		clean_btn.setStatusTip("Clean useless browser data")
-		clean_btn.triggered.connect(lambda:cleanup())
-		self.navtb.addAction(clean_btn)
-		clean_short = QShortcut(QKeySequence("Alt+J"), self)
-		clean_short.activated.connect(lambda:cleanup())
-
-		settings_btn = QAction(QIcon(os.path.join('images', 'settings.png')), "Settings", self)
+		settings_btn = QAction(QIcon("assets/settings.png"), "Settings", self)
 		settings_btn.setToolTip("Open browser settings window")
-		settings_btn.triggered.connect(lambda:open_settings(self))
+		settings_btn.triggered.connect(self.open_settings)
 		self.navtb.addAction(settings_btn)
 		settings_short = QShortcut(QKeySequence("Alt+P"), self)
-		settings_short.activated.connect(lambda:open_settings(self))
+		settings_short.activated.connect(self.open_settings)
 
 		newtab_short = QShortcut(QKeySequence("Ctrl+T"), self)
-		newtab_short.activated.connect(lambda:self.add_new_tab(QUrl(homepage), 'Homepage'))
+		newtab_short.activated.connect(lambda:self.add_new_tab(QUrl(self.homepage), 'Homepage'))
 		closetab_short = QShortcut(QKeySequence("Ctrl+W"), self)
 		closetab_short.activated.connect(lambda:self.close_current_tab(self.tabs.currentIndex()))
 
-		def cleanup():
-			os.system('cls' if os.name == 'nt' else 'clear')
-
-		def open_settings(self):
-			self.settingswindow = QWidget()
-			self.settings = Settings()
-			self.settings.setupUi(self.settingswindow)
-			self.settingswindow.show()
 
 		def source():
 			source = "view-source:"
@@ -143,7 +127,7 @@ class MainWindow(QMainWindow):
 			t = str(r)
 			return t
 
-		self.add_new_tab(QUrl(homepage), 'Homepage')
+		self.add_new_tab(QUrl(self.homepage), 'Homepage')
 
 		self.setWindowTitle("Souvlaki Browser")
 
@@ -154,7 +138,7 @@ class MainWindow(QMainWindow):
 
 		if qurl is None:
 
-			qurl = QUrl(homepage)
+			qurl = QUrl(self.homepage)
 
 		browser = QWebEngineView()
 		browser.settings().setAttribute(
@@ -176,9 +160,7 @@ class MainWindow(QMainWindow):
 
 		browser.page().profile().downloadRequested.connect(self._downloadRequested)
 
-		# browser.setContextMenuPolicy
-
-		if linkpreview:
+		if self.linkpreview:
 			browser.page().linkHovered.connect(self.status.showMessage)
 
 		browser.page().fullScreenRequested.connect(lambda request, browser = browser: self.handle_fullscreen_requested(request))
@@ -196,8 +178,18 @@ class MainWindow(QMainWindow):
 		if i == -1:
 			self.add_new_tab()
 
+	def open_settings(self):
+		self.settingswindow = QWidget()
+		self.settings = Settings()
+		self.settings.setupUi(self.settingswindow)
+		self.settingswindow.show()
+
 	def closeEvent(self, event):
-		os.system('cls' if os.name == 'nt' else 'clear')
+		if hasattr(self, "settings"):
+			jsonParser.write_key("homepage", self.settings.hometext.property("text"))
+			jsonParser.write_key("darkmode", self.settings.darkcheck.property("checked"))
+			jsonParser.write_key("linkpreview", self.settings.linkpreviewcheck.property("checked"))
+		sys.exit()
 
 	def handle_fullscreen_requested(self, request):
 		request.accept()
@@ -212,8 +204,14 @@ class MainWindow(QMainWindow):
 			self.navtb.show()
 			self.tabs.tabBar().show()
 
-	def _downloadRequested(self,item):
+	def _downloadRequested(self, item):
 		item.accept()
+		self.downloadwindow = QWidget()
+		self.downloadManager = DownloadManager()
+		self.downloadManager.setupUi(self.downloadwindow)
+		self.downloadManager.progressBar.setProperty("value", 0)
+		self.downloadManager.label.text = item.downloadFileName()
+		self.downloadwindow.show()
 
 	def current_tab_changed(self, i):
 
@@ -240,7 +238,7 @@ class MainWindow(QMainWindow):
 
 	def navigate_home(self):
 
-		self.tabs.currentWidget().setUrl(QUrl(homepage))
+		self.tabs.currentWidget().setUrl(QUrl(self.homepage))
 
 	def navigate_to_url(self):
 
@@ -265,9 +263,9 @@ class MainWindow(QMainWindow):
 		if q.scheme() == 'https':
 			# Secure padlock icon
 			self.ssl_btn.setStatusTip("Secure Connection")
-			self.ssl_btn.setIcon(QIcon(os.path.join('images', 'lock.png')))
+			self.ssl_btn.setIcon(QIcon("assets/lock.png"))
 
 		else:
 			# Insecure padlock icon
 			self.ssl_btn.setStatusTip("Insecure Connection")
-			self.ssl_btn.setIcon(QIcon(os.path.join('images', 'unlock.png')))
+			self.ssl_btn.setIcon(QIcon("assets/unlock.png"))

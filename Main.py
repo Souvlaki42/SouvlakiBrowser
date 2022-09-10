@@ -1,13 +1,14 @@
-from unicodedata import name
 from PyQt5.QtWidgets import QApplication
-from app import MainWindow
+from modules.app import MainWindow
+from config import jsonParser
 from PyQt5.QtGui import QIcon
 import qdarkstyle
-import sys
+import sys, ctypes
 
-darkstyle = False
+darkstyle = jsonParser.read_key("darkmode")
 
-if __name__ == "__main__":
+def main_func():
+	
 	app = QApplication(sys.argv)
 
 	if darkstyle:
@@ -15,9 +16,15 @@ if __name__ == "__main__":
 	else:
 		app.setStyleSheet("")
 
+	ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID("souvlaki.browser.main.one")
+
 	app.setApplicationName("Souvlaki Browser")
-	app.setWindowIcon(QIcon("images/logo.png"))
+	app.setWindowIcon(QIcon("assets/logo.png"))
 
 	main = MainWindow()
 	main.show()
 	app.exec_()
+	
+
+if __name__ == "__main__":
+	main_func()
