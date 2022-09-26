@@ -16,7 +16,7 @@ def main_func():
 	else:
 		app.setStyleSheet("")
 
-	ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID("souvlaki.browser.main.one")
+	ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID("souvlaki.browser.main")
 
 	app.setApplicationName("Souvlaki Browser")
 	app.setWindowIcon(QIcon("assets/logo.png"))
