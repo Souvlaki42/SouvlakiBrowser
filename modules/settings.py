@@ -1,5 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from config import jsonParser
+from modules.config import jsonParser
 
 class Settings(object):
     def setupUi(self, Window):

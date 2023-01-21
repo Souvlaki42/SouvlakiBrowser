@@ -4,7 +4,7 @@ from PyQt5.QtGui import QKeySequence, QIcon
 from modules.downloading import DownloadManager
 from PyQt5.QtCore import QUrl
 from modules.settings import Settings
-from config import jsonParser
+from modules.config import jsonParser
 import sys
 
 class MainWindow(QMainWindow):

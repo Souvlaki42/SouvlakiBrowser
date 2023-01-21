@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QApplication
 from modules.app import MainWindow
-from config import jsonParser
+from modules.config import jsonParser
 from PyQt5.QtGui import QIcon
 import qdarkstyle
 import sys, ctypes
