@@ -1,15 +1,16 @@
 from PyQt5.QtWidgets import QMainWindow, QTabWidget, QStatusBar, QAction, QShortcut, QToolBar, QLabel, QLineEdit, QWidget, QMenu
 from PyQt5.QtWebEngineWidgets import QWebEngineView, QWebEngineSettings
 from PyQt5.QtGui import QKeySequence, QIcon, QCursor
-from modules.downloader import DownloadManager
-from PyQt5.QtCore import QUrl, Qt
+from modules.downloader import Ui_DownloadManager
+from PyQt5.QtCore import QUrl, Qt, QTimer
 from modules.settings import Settings
 from modules.config import jsonParser
+from modules.downloadfolder import get_download_folder
 
 DEBUG_PORT = "5588"
 DEBUG_URL = "http://127.0.0.1:%s" % DEBUG_PORT
 
-import os, math, time
+import os, math, subprocess
 os.environ["QTWEBENGINE_REMOTE_DEBUGGING"] = DEBUG_PORT
 
 class MainWindow(QMainWindow):
@@ -258,9 +259,28 @@ class MainWindow(QMainWindow):
 		return int(math.trunc(percentage))
 
 	def _downloadRequested(self, item):
+		if item is None:
+			print("None found!")
+		item.setDownloadDirectory(get_download_folder())
+		self.DownloadManager = QWidget()
+		self.downloadUi = Ui_DownloadManager()
+		self.downloadUi.setupUi(self.DownloadManager)
+		self.DownloadManager.show()
+		self.download_timer = QTimer()
+		self.downloadUi.filenameText.setText(item.suggestedFileName())
+		self.download_timer.timeout.connect(self.download_loop(item))
+		self.download_timer.setInterval(1000)
 		item.accept()
-		self.download_manager = DownloadManager()
-		self.download_manager.show()
+		self.download_timer.start()
+		self.downloadUi.folderBtn.clicked.connect(lambda: subprocess.Popen(f'explorer "{item.downloadDirectory()}"'))
+		self.downloadUi.folderBtn.setEnabled(True)
+
+	def download_loop(self, item):
+		if item.isFinished():
+			self.downloadUi.folderBtn.setEnabled(True)
+			self.download_timer.stop()
+		else:
+			self.downloadUi.progressBar.setValue(self.calculateDownloadPercentage(item.receivedBytes(), item.totalBytes()))
 
 	def current_tab_changed(self, i):
 
@@ -269,6 +289,7 @@ class MainWindow(QMainWindow):
 		self.update_urlbar(qurl, self.tabs.currentWidget())
 
 		self.update_title(self.tabs.currentWidget())
+
 
 	def close_current_tab(self, i):
 		if self.tabs.count() < 2:
