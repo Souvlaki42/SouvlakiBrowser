@@ -1,15 +1,13 @@
 from PyQt5.QtWidgets import QApplication
-from modules.app import MainWindow
+from modules.window import MainWindow
 from modules.config import jsonParser
 from PyQt5.QtGui import QIcon
-import qdarkstyle
-import sys, ctypes
+import sys, ctypes, qdarkstyle
 
-darkstyle = jsonParser.read_key("darkmode")
-
-def main_func():
-	
+if __name__ == "__main__":
 	app = QApplication(sys.argv)
+
+	darkstyle = jsonParser.read_key("darkmode")
 
 	if darkstyle:
 		app.setStyleSheet(qdarkstyle.load_stylesheet_pyqt5())
@@ -24,7 +22,3 @@ def main_func():
 	main = MainWindow()
 	main.show()
 	app.exec_()
-	
-
-if __name__ == "__main__":
-	main_func()
