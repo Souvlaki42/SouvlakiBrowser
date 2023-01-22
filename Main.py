@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import QApplication
-from modules.window import MainWindow
+from modules.app import MainWindow
 from modules.config import jsonParser
 from PyQt5.QtGui import QIcon
 import sys, ctypes, qdarkstyle
@@ -17,7 +17,7 @@ if __name__ == "__main__":
 	ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID("souvlaki.browser.main")
 
 	app.setApplicationName("Souvlaki Browser")
-	app.setWindowIcon(QIcon("assets/logo.png"))
+	app.setWindowIcon(QIcon("assets/images/logo.png"))
 
 	main = MainWindow()
 	main.show()

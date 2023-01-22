@@ -6,7 +6,7 @@ class Settings(object):
         Window.setObjectName("Window")
         Window.resize(400, 300)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("assets/logo.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("assets/images/logo.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Window.setWindowIcon(icon)
         self.hometext = QtWidgets.QLineEdit(Window)
         self.hometext.setGeometry(QtCore.QRect(110, 30, 181, 20))
