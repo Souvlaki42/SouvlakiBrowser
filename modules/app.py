@@ -3,8 +3,6 @@ from PyQt5.QtWebEngineWidgets import QWebEngineView, QWebEngineSettings
 from PyQt5.QtGui import QKeySequence, QIcon, QCursor
 from modules.downloader import Ui_DownloadManager
 from PyQt5.QtCore import QUrl, Qt, QTimer
-from modules.settings import Settings
-from modules.config import jsonParser
 from modules.downloadfolder import get_download_folder
 
 DEBUG_PORT = "5588"
@@ -17,8 +15,8 @@ class MainWindow(QMainWindow):
 	def __init__(self):
 		super(MainWindow, self).__init__()
 
-		self.homepage = jsonParser.read_key("homepage")
-		self.linkpreview = jsonParser.read_key("linkpreview")
+		self.homepage = "https://google.com"
+		self.linkpreview = True
 
 		self.showMaximized()
 
@@ -139,10 +137,10 @@ class MainWindow(QMainWindow):
 
 		self.settings_btn = QAction(QIcon("assets/images/settings.png"), "Settings", self)
 		self.settings_btn.setToolTip("Open browser settings window")
-		self.settings_btn.triggered.connect(self.open_settings)
+		# self.settings_btn.triggered.connect(self.open_settings)
 		self.navtb.addAction(self.settings_btn)
 		settings_short = QShortcut(QKeySequence("Alt+P"), self)
-		settings_short.activated.connect(self.open_settings)
+		# settings_short.activated.connect(self.open_settings)
 
 		newtab_short = QShortcut(QKeySequence("Ctrl+T"), self)
 		newtab_short.activated.connect(lambda:self.add_new_tab(QUrl(self.homepage), "Homepage"))
@@ -224,22 +222,12 @@ class MainWindow(QMainWindow):
 
 
 	def tab_open_doubleclick(self, i):
-
 		if i == -1:
 			self.add_new_tab()
 
-	def open_settings(self):
-		self.settingswindow = QWidget()
-		self.settings = Settings()
-		self.settings.setupUi(self.settingswindow)
-		self.settingswindow.show()
-
 	def closeEvent(self, event):
-		if hasattr(self, "settings"):
-			jsonParser.write_key("homepage", self.settings.hometext.property("text"))
-			jsonParser.write_key("darkmode", self.settings.darkcheck.property("checked"))
-			jsonParser.write_key("linkpreview", self.settings.linkpreviewcheck.property("checked"))
-		self.DownloadManager.close()
+		if hasattr(self, "DownloadManager"):
+			self.DownloadManager.close()
 		self.close()
 
 	def handle_fullscreen_requested(self, request):
