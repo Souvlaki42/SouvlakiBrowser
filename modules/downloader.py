@@ -33,7 +33,7 @@ class Ui_DownloadManager(object):
         self.filenameText.setObjectName("filenameText")
         self.folderBtn = QtWidgets.QPushButton(DownloadManager)
         self.folderBtn.setEnabled(False)
-        self.folderBtn.setGeometry(QtCore.QRect(160, 160, 75, 23))
+        self.folderBtn.setGeometry(QtCore.QRect(160, 150, 75, 23))
         self.folderBtn.setObjectName("folderBtn")
 
         self.retranslateUi(DownloadManager)

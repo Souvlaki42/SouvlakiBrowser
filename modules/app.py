@@ -239,6 +239,7 @@ class MainWindow(QMainWindow):
 			jsonParser.write_key("homepage", self.settings.hometext.property("text"))
 			jsonParser.write_key("darkmode", self.settings.darkcheck.property("checked"))
 			jsonParser.write_key("linkpreview", self.settings.linkpreviewcheck.property("checked"))
+		self.DownloadManager.close()
 		self.close()
 
 	def handle_fullscreen_requested(self, request):
@@ -259,8 +260,6 @@ class MainWindow(QMainWindow):
 		return int(math.trunc(percentage))
 
 	def _downloadRequested(self, item):
-		if item is None:
-			print("None found!")
 		item.setDownloadDirectory(get_download_folder())
 		self.DownloadManager = QWidget()
 		self.downloadUi = Ui_DownloadManager()
@@ -268,15 +267,18 @@ class MainWindow(QMainWindow):
 		self.DownloadManager.show()
 		self.download_timer = QTimer()
 		self.downloadUi.filenameText.setText(item.suggestedFileName())
-		self.download_timer.timeout.connect(self.download_loop(item))
+		self.download_timer.timeout.connect(lambda: self.download_loop(item))
 		self.download_timer.setInterval(1000)
 		item.accept()
 		self.download_timer.start()
-		self.downloadUi.folderBtn.clicked.connect(lambda: subprocess.Popen(f'explorer "{item.downloadDirectory()}"'))
-		self.downloadUi.folderBtn.setEnabled(True)
+		self.downloadUi.folderBtn.clicked.connect(lambda: self.folder_btn_exec(item.downloadDirectory()))
+
+	def folder_btn_exec(self, download_dir):
+		subprocess.Popen(f'explorer "{download_dir}"')
+		self.DownloadManager.close()
 
 	def download_loop(self, item):
-		if item.isFinished():
+		if item.isFinished() and self.downloadUi.progressBar.value() == 100:
 			self.downloadUi.folderBtn.setEnabled(True)
 			self.download_timer.stop()
 		else:
