@@ -1,5 +1,4 @@
 from PyQt5 import QtWidgets, QtCore
-from PyQt5.QtWebEngineWidgets import QWebEnginePage
 from components import titleBar, tab, webPage
 from browserUi import Ui_Form
 import sys
@@ -30,11 +29,11 @@ class BrowserApp(QtWidgets.QWidget, Ui_Form):
         tabB = tab.Tab()
         tabB.setId(self.tabId)
         self.tBar.insertTab(tabB)
-        page = webPage.WebPage(tabB)
-        self.verticalLayout.addWidget(page)
+        self.page = webPage.WebPage(tab = tabB, tBar = self.tBar, main = self)
+        self.verticalLayout.addWidget(self.page)
 
         self.actTab = self.tabId
-        self.tabDict[self.tabId] = [tabB, page]
+        self.tabDict[self.tabId] = [tabB, self.page]
         tabB.clicked.connect(self.selTab)
         tabB.tabPushButton.clicked.connect(self.delTab)
         self.tabId += 1
@@ -69,6 +68,11 @@ class BrowserApp(QtWidgets.QWidget, Ui_Form):
             self.tabCount -= 1
         else:
             sys.exit()
+
+    def source(self):
+        self.page.wpLineEdit.setText(f"view-source:{self.page.wpLineEdit.text()}")
+        self.page.load()
+
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     Form = BrowserApp()

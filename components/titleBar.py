@@ -1,10 +1,9 @@
 ######################################################
 ##  SihinaCode > Search YouTube for more tutorials  ##
 ######################################################
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtWidgets
 from components.titleBarUi import Ui_tbWidget
 from components.movableLabel import MovableLabel
-import sys
 
 class TitleBar(QtWidgets.QWidget, Ui_tbWidget):
     def __init__(self, parent = None):
@@ -13,9 +12,9 @@ class TitleBar(QtWidgets.QWidget, Ui_tbWidget):
         self.parent = parent
         MovableLabel.mainWindow = self.parent
 
-        self.tbPushButton.clicked.connect(self.parent.showMinimized)
-        self.tbPushButton_2.clicked.connect(self.winShowMaximized)
-        self.tbPushButton_3.clicked.connect(sys.exit)
+        self.tbPushButton.clicked.connect(lambda: self.parent.showMinimized())
+        self.tbPushButton_2.clicked.connect(lambda: self.winShowMaximized())
+        self.tbPushButton_3.clicked.connect(lambda: self.parent.close())
 
     def winShowMaximized(self):
         if self.tbPushButton_2.isChecked():

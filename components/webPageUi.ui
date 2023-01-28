@@ -179,6 +179,25 @@ QPushButton:pressed{
               </property>
              </widget>
             </item>
+            <item>
+             <widget class="QPushButton" name="wpPushButton_4">
+              <property name="minimumSize">
+               <size>
+                <width>30</width>
+                <height>30</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>30</width>
+                <height>30</height>
+               </size>
+              </property>
+              <property name="text">
+               <string></string>
+              </property>
+             </widget>
+            </item>
            </layout>
           </widget>
          </item>
@@ -210,6 +229,46 @@ QLineEdit:focus{
            </property>
            <property name="placeholderText">
             <string>Type a URL</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="wpPushButton_5">
+           <property name="minimumSize">
+            <size>
+             <width>30</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>30</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <family>dripicons-v2</family>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton{
+	background-color:rgba(0, 0, 0, 0);
+	color:rgb(255, 255, 255);
+	font-size:17px;
+	font-family:dripicons-v2;
+}
+QPushButton:hover{
+	background-color:rgba(144, 144, 144, 30);
+	border-radius:5px;
+}
+QPushButton:pressed{
+	padding-top:5px;
+	padding-left:5px;
+}</string>
+           </property>
+           <property name="text">
+            <string>/</string>
            </property>
           </widget>
          </item>
