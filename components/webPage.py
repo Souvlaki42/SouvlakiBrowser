@@ -3,8 +3,12 @@
 ######################################################
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWebEngineWidgets import QWebEnginePage, QWebEngineView, QWebEngineSettings
+from components.downloaderUi import Ui_DownloadManager
 from components.webPageUi import Ui_wpWidget
-import os
+import os, subprocess, math
+
+from utils.downloadFolder import getDownloadFolder
+from utils.downloadFolderOld import get_download_folder
 
 class WebPage(QtWidgets.QWidget, Ui_wpWidget):
 	def __init__(self, tab = None, tBar = None, main = None, parent = None):
@@ -32,8 +36,10 @@ class WebPage(QtWidgets.QWidget, Ui_wpWidget):
 		self.webEngineView.iconChanged.connect(lambda icon: self.iconChanged(icon))
 		self.webEngineView.loadStarted.connect(lambda: self.wpPushButton_3.setText("9"))
 		self.webEngineView.loadFinished.connect(lambda: self.wpPushButton_3.setText("Z"))
+		self.webEngineView.page().profile().downloadRequested.connect(self.downloadRequested)
 
-		self.load("https://google.com")
+		# self.load("https://google.com")
+		self.load("https://chrome.com")
 
 		self.webEngineView.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
 		self.webEngineView.customContextMenuRequested.connect(self.contextMenu)
@@ -143,4 +149,33 @@ class WebPage(QtWidgets.QWidget, Ui_wpWidget):
 		self.inspector.load(QtCore.QUrl(DEBUG_URL))
 		self.webEngineView.page().setDevToolsPage(self.inspector.page())
 		self.inspector.show()
+	def calculateDownloadPercentage(self, received_bytes, total_bytes):
+		percentage = received_bytes / total_bytes * 100
+		return int(math.trunc(percentage))
+	def downloadRequested(self, item):
+		try:
+			item.setDownloadDirectory(getDownloadFolder())
+		except:
+			item.setDownloadDirectory(get_download_folder())
+		self.DownloadManager = QtWidgets.QWidget()
+		self.downloadUi = Ui_DownloadManager()
+		self.downloadUi.setupUi(self.DownloadManager)
+		self.DownloadManager.show()
+		self.download_timer = QtCore.QTimer()
+		self.downloadUi.filenameText.setText(item.suggestedFileName())
+		self.download_timer.timeout.connect(lambda: self.download_loop(item))
+		self.download_timer.setInterval(1000)
+		item.accept()
+		self.download_timer.start()
+		self.downloadUi.folderBtn.clicked.connect(lambda: self.folder_btn_exec(item.downloadDirectory()))
+	def folder_btn_exec(self, download_dir):
+		subprocess.Popen(f'explorer "{download_dir}"')
+		self.DownloadManager.close()
+	def download_loop(self, item):
+		if item.isFinished() and self.downloadUi.progressBar.value() == 100:
+			self.downloadUi.folderBtn.setEnabled(True)
+			self.download_timer.stop()
+		else:
+			self.downloadUi.progressBar.setValue(self.calculateDownloadPercentage(item.receivedBytes(), item.totalBytes()))
+
 	
