@@ -39,7 +39,9 @@ class WebPage(QtWidgets.QWidget, Ui_wpWidget):
 		self.webEngineView.page().profile().downloadRequested.connect(self.downloadRequested)
 
 		self.load("https://google.com")
+		# self.load("https://www.youtube.com/watch?v=ouEzZbj1BkQ")
 		# self.load("https://chrome.com")
+		# self.load("https://www.youtube.com/html5")
 
 		self.webEngineView.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
 		self.webEngineView.customContextMenuRequested.connect(self.contextMenu)
@@ -47,6 +49,27 @@ class WebPage(QtWidgets.QWidget, Ui_wpWidget):
 		self.webEngineView.settings().setAttribute(QWebEngineSettings.FullScreenSupportEnabled, True)
 		self.webEngineView.settings().setAttribute(QWebEngineSettings.JavascriptCanOpenWindows, True)
 		self.webEngineView.settings().setAttribute(QWebEngineSettings.PluginsEnabled, True)
+		self.webEngineView.settings().setAttribute(QWebEngineSettings.JavascriptEnabled, True)
+		# self.webEngineView.settings().setAttribute(QWebEngineSettings.FullViewportEnabled, True)
+		self.webEngineView.settings().setAttribute(QWebEngineSettings.ScreenCaptureEnabled, True)
+		self.webEngineView.settings().setAttribute(QWebEngineSettings.LocalContentCanAccessRemoteUrls, True)
+		self.webEngineView.settings().setAttribute(QWebEngineSettings.AllowRunningInsecureContent, True)
+		self.webEngineView.settings().setAttribute(QWebEngineSettings.AllowGeolocationOnInsecureOrigins, True)
+		self.webEngineView.settings().setAttribute(QWebEngineSettings.AllowWindowActivationFromJavaScript, True)
+		self.webEngineView.settings().setAttribute(QWebEngineSettings.ShowScrollBars, True)
+		self.webEngineView.settings().setAttribute(QWebEngineSettings.WebGLEnabled, True)
+		self.webEngineView.settings().setAttribute(QWebEngineSettings.Accelerated2dCanvasEnabled, True)
+		self.webEngineView.settings().setAttribute(QWebEngineSettings.TouchIconsEnabled, True)
+		self.webEngineView.settings().setAttribute(QWebEngineSettings.AutoLoadIconsForPage, True)
+		# self.webEngineView.settings().setAttribute(QWebEngineSettings.AcceleratedVideoDecodeEnabled, True)
+		# self.webEngineView.settings().setAttribute(QWebEngineSettings.HardwareAccelerationEnabled, True)
+		self.webEngineView.settings().setAttribute(QWebEngineSettings.JavascriptCanAccessClipboard, True)
+		self.webEngineView.settings().setAttribute(QWebEngineSettings.JavascriptCanPaste, True)
+		# self.webEngineView.settings().setAttribute(QWebEngineSettings.UrlRequestInterceptorEnabled, True)
+		self.webEngineView.settings().setAttribute(QWebEngineSettings.WebRTCPublicInterfacesOnly, True)
+		self.webEngineView.settings().setAttribute(QWebEngineSettings.Accelerated2dCanvasEnabled, True)
+		self.webEngineView.settings().setAttribute(QWebEngineSettings.LocalStorageEnabled, True)
+		self.webEngineView.settings().setAttribute(QWebEngineSettings.AutoLoadImages, True)
 
 	def fullscreenRequested(self, request):
 		request.accept()
@@ -145,7 +168,7 @@ class WebPage(QtWidgets.QWidget, Ui_wpWidget):
 		DEBUG_URL = "http://127.0.0.1:%s" % DEBUG_PORT
 		os.environ["QTWEBENGINE_REMOTE_DEBUGGING"] = DEBUG_PORT
 		self.inspector = QWebEngineView()
-		self.inspector.setWindowTitle("Web Inspector")
+		self.inspector.setWindowTitle(f"DevTools - {self.wpLineEdit.text()}")
 		self.inspector.setWindowIcon(QtGui.QIcon("icon.ico"))
 		self.inspector.load(QtCore.QUrl(DEBUG_URL))
 		self.webEngineView.page().setDevToolsPage(self.inspector.page())
