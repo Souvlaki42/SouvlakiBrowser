@@ -38,14 +38,15 @@ class WebPage(QtWidgets.QWidget, Ui_wpWidget):
 		self.webEngineView.loadFinished.connect(lambda: self.wpPushButton_3.setText("Z"))
 		self.webEngineView.page().profile().downloadRequested.connect(self.downloadRequested)
 
-		# self.load("https://google.com")
-		self.load("https://chrome.com")
+		self.load("https://google.com")
+		# self.load("https://chrome.com")
 
 		self.webEngineView.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
 		self.webEngineView.customContextMenuRequested.connect(self.contextMenu)
 
 		self.webEngineView.settings().setAttribute(QWebEngineSettings.FullScreenSupportEnabled, True)
 		self.webEngineView.settings().setAttribute(QWebEngineSettings.JavascriptCanOpenWindows, True)
+		self.webEngineView.settings().setAttribute(QWebEngineSettings.PluginsEnabled, True)
 
 	def fullscreenRequested(self, request):
 		request.accept()
