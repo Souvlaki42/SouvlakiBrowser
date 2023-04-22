@@ -2,9 +2,10 @@
 ##  SihinaCode > Search YouTube for more tutorials  ##
 ######################################################
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWebEngineWidgets import QWebEnginePage, QWebEngineView, QWebEngineSettings
+from PyQt5.QtWebEngineWidgets import QWebEnginePage, QWebEngineView, QWebEngineSettings, QWebEngineProfile
 from components.downloaderUi import Ui_DownloadManager
 from components.webPageUi import Ui_wpWidget
+from utils.adBlocker import AdBlocker
 import os, subprocess, math
 
 from utils.downloadFolder import getDownloadFolder
@@ -20,15 +21,16 @@ class WebPage(QtWidgets.QWidget, Ui_wpWidget):
 		self.webEngineView.setObjectName("webEngineView")
 		self.verticalLayout_3.addWidget(self.webEngineView)
 
+		self.tab = tab
+		self.tBar = tBar
+		self.main = main
+		self.url = "https://google.com"
+
 		self.wpLineEdit.returnPressed.connect(self.load)
 		self.wpPushButton.clicked.connect(self.backward)
 		self.wpPushButton_2.clicked.connect(self.forward)
 		self.wpPushButton_3.clicked.connect(self.reloadStop)
-		self.wpPushButton_4.clicked.connect(lambda: self.load("https://google.com"))
-
-		self.tab = tab
-		self.tBar = tBar
-		self.main = main
+		self.wpPushButton_4.clicked.connect(lambda: self.load(self.url))
 
 		self.webEngineView.page().fullScreenRequested.connect(lambda request: self.fullscreenRequested(request))
 		self.webEngineView.loadFinished.connect(self.loadFinished)
@@ -37,11 +39,9 @@ class WebPage(QtWidgets.QWidget, Ui_wpWidget):
 		self.webEngineView.loadStarted.connect(lambda: self.wpPushButton_3.setText("9"))
 		self.webEngineView.loadFinished.connect(lambda: self.wpPushButton_3.setText("Z"))
 		self.webEngineView.page().profile().downloadRequested.connect(self.downloadRequested)
+		QWebEngineProfile.defaultProfile().setUrlRequestInterceptor(AdBlocker())
 
-		self.load("https://google.com")
-		# self.load("https://www.youtube.com/watch?v=ouEzZbj1BkQ")
-		# self.load("https://chrome.com")
-		# self.load("https://www.youtube.com/html5")
+		self.load(self.url)
 
 		self.webEngineView.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
 		self.webEngineView.customContextMenuRequested.connect(self.contextMenu)
@@ -50,7 +50,6 @@ class WebPage(QtWidgets.QWidget, Ui_wpWidget):
 		self.webEngineView.settings().setAttribute(QWebEngineSettings.JavascriptCanOpenWindows, True)
 		self.webEngineView.settings().setAttribute(QWebEngineSettings.PluginsEnabled, True)
 		self.webEngineView.settings().setAttribute(QWebEngineSettings.JavascriptEnabled, True)
-		# self.webEngineView.settings().setAttribute(QWebEngineSettings.FullViewportEnabled, True)
 		self.webEngineView.settings().setAttribute(QWebEngineSettings.ScreenCaptureEnabled, True)
 		self.webEngineView.settings().setAttribute(QWebEngineSettings.LocalContentCanAccessRemoteUrls, True)
 		self.webEngineView.settings().setAttribute(QWebEngineSettings.AllowRunningInsecureContent, True)
@@ -61,11 +60,8 @@ class WebPage(QtWidgets.QWidget, Ui_wpWidget):
 		self.webEngineView.settings().setAttribute(QWebEngineSettings.Accelerated2dCanvasEnabled, True)
 		self.webEngineView.settings().setAttribute(QWebEngineSettings.TouchIconsEnabled, True)
 		self.webEngineView.settings().setAttribute(QWebEngineSettings.AutoLoadIconsForPage, True)
-		# self.webEngineView.settings().setAttribute(QWebEngineSettings.AcceleratedVideoDecodeEnabled, True)
-		# self.webEngineView.settings().setAttribute(QWebEngineSettings.HardwareAccelerationEnabled, True)
 		self.webEngineView.settings().setAttribute(QWebEngineSettings.JavascriptCanAccessClipboard, True)
 		self.webEngineView.settings().setAttribute(QWebEngineSettings.JavascriptCanPaste, True)
-		# self.webEngineView.settings().setAttribute(QWebEngineSettings.UrlRequestInterceptorEnabled, True)
 		self.webEngineView.settings().setAttribute(QWebEngineSettings.WebRTCPublicInterfacesOnly, True)
 		self.webEngineView.settings().setAttribute(QWebEngineSettings.Accelerated2dCanvasEnabled, True)
 		self.webEngineView.settings().setAttribute(QWebEngineSettings.LocalStorageEnabled, True)
