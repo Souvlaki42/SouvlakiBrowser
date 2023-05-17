@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'assets/ui/downloader.ui'
+# Form implementation generated from reading ui file 'components/downloaderUi.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.7
 #
@@ -44,13 +44,3 @@ class Ui_DownloadManager(object):
         DownloadManager.setWindowTitle(_translate("DownloadManager", "Download Manager"))
         self.filenameText.setText(_translate("DownloadManager", "Filename"))
         self.folderBtn.setText(_translate("DownloadManager", "Open Folder"))
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    DownloadManager = QtWidgets.QWidget()
-    ui = Ui_DownloadManager()
-    ui.setupUi(DownloadManager)
-    DownloadManager.show()
-    sys.exit(app.exec_())
