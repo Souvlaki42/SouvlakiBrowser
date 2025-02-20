@@ -7,7 +7,6 @@
 
 
 from PyQt6 import QtCore, QtGui, QtWidgets
-from .movableLabel import MovableLabel
 
 
 class Ui_tbWidget(object):
@@ -36,7 +35,7 @@ class Ui_tbWidget(object):
         self.horizontalLayout_2.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_2.setSpacing(0)
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
-        self.tbLabel_7 = MovableLabel(parent=self.tbWidget_2)
+        self.tbLabel_7 = QtWidgets.QLabel(parent=self.tbWidget_2)
         self.tbLabel_7.setMinimumSize(QtCore.QSize(25, 40))
         self.tbLabel_7.setMaximumSize(QtCore.QSize(25, 40))
         self.tbLabel_7.setText("")
@@ -50,7 +49,7 @@ class Ui_tbWidget(object):
         self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_3.setSpacing(0)
         self.verticalLayout_3.setObjectName("verticalLayout_3")
-        self.tbLabel_6 = MovableLabel(parent=self.tbWidget_5)
+        self.tbLabel_6 = QtWidgets.QLabel(parent=self.tbWidget_5)
         self.tbLabel_6.setMinimumSize(QtCore.QSize(0, 5))
         self.tbLabel_6.setMaximumSize(QtCore.QSize(16777215, 5))
         self.tbLabel_6.setText("")
@@ -64,7 +63,7 @@ class Ui_tbWidget(object):
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.verticalLayout_3.addWidget(self.tbWidget_6)
         self.horizontalLayout_2.addWidget(self.tbWidget_5)
-        self.tbLabel_5 = MovableLabel(parent=self.tbWidget_2)
+        self.tbLabel_5 = QtWidgets.QLabel(parent=self.tbWidget_2)
         self.tbLabel_5.setMinimumSize(QtCore.QSize(15, 40))
         self.tbLabel_5.setMaximumSize(QtCore.QSize(15, 40))
         self.tbLabel_5.setText("")
@@ -93,7 +92,7 @@ class Ui_tbWidget(object):
         self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_2.setSpacing(0)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
-        self.tbLabel_3 = MovableLabel(parent=self.tbWidget_4)
+        self.tbLabel_3 = QtWidgets.QLabel(parent=self.tbWidget_4)
         self.tbLabel_3.setMinimumSize(QtCore.QSize(0, 7))
         self.tbLabel_3.setMaximumSize(QtCore.QSize(16777215, 7))
         self.tbLabel_3.setText("")
@@ -104,14 +103,14 @@ class Ui_tbWidget(object):
         self.tbPushButton_4.setMaximumSize(QtCore.QSize(30, 30))
         self.tbPushButton_4.setObjectName("tbPushButton_4")
         self.verticalLayout_2.addWidget(self.tbPushButton_4)
-        self.tbLabel_4 = MovableLabel(parent=self.tbWidget_4)
+        self.tbLabel_4 = QtWidgets.QLabel(parent=self.tbWidget_4)
         self.tbLabel_4.setMinimumSize(QtCore.QSize(0, 3))
         self.tbLabel_4.setMaximumSize(QtCore.QSize(16777215, 3))
         self.tbLabel_4.setText("")
         self.tbLabel_4.setObjectName("tbLabel_4")
         self.verticalLayout_2.addWidget(self.tbLabel_4)
         self.horizontalLayout_2.addWidget(self.tbWidget_4)
-        self.tbLabel_2 = MovableLabel(parent=self.tbWidget_2)
+        self.tbLabel_2 = QtWidgets.QLabel(parent=self.tbWidget_2)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -125,46 +124,12 @@ class Ui_tbWidget(object):
         self.tbWidget_3 = QtWidgets.QWidget(parent=self.tbWidget_2)
         self.tbWidget_3.setMinimumSize(QtCore.QSize(90, 40))
         self.tbWidget_3.setMaximumSize(QtCore.QSize(90, 40))
-        self.tbWidget_3.setStyleSheet("QPushButton{\n"
-"    background-color:rgba(0, 0, 0, 0);\n"
-"    color:rgb(255, 255, 255);\n"
-"    border-radius:1px;\n"
-"    font-size:18px;\n"
-"    font-family:dripicons-v2;\n"
-"}\n"
-"QPushButton:hover{\n"
-"    background-color:rgb(49, 48, 53);\n"
-"}\n"
-"QPushButton#tbPushButton_3:hover{\n"
-"    background-color:rgb(232, 17, 35);\n"
-"}\n"
-"QPushButton:pressed{\n"
-"    padding-top:5px;\n"
-"    padding-left:5px;\n"
-"}")
         self.tbWidget_3.setObjectName("tbWidget_3")
         self.gridLayout = QtWidgets.QGridLayout(self.tbWidget_3)
         self.gridLayout.setContentsMargins(0, 0, 0, 0)
         self.gridLayout.setSpacing(0)
         self.gridLayout.setObjectName("gridLayout")
-        self.tbPushButton_3 = QtWidgets.QPushButton(parent=self.tbWidget_3)
-        self.tbPushButton_3.setMinimumSize(QtCore.QSize(30, 30))
-        self.tbPushButton_3.setMaximumSize(QtCore.QSize(30, 30))
-        self.tbPushButton_3.setObjectName("tbPushButton_3")
-        self.gridLayout.addWidget(self.tbPushButton_3, 0, 2, 1, 1)
-        self.tbPushButton = QtWidgets.QPushButton(parent=self.tbWidget_3)
-        self.tbPushButton.setMinimumSize(QtCore.QSize(30, 30))
-        self.tbPushButton.setMaximumSize(QtCore.QSize(30, 30))
-        self.tbPushButton.setObjectName("tbPushButton")
-        self.gridLayout.addWidget(self.tbPushButton, 0, 0, 1, 1)
-        self.tbPushButton_2 = QtWidgets.QPushButton(parent=self.tbWidget_3)
-        self.tbPushButton_2.setMinimumSize(QtCore.QSize(30, 30))
-        self.tbPushButton_2.setMaximumSize(QtCore.QSize(30, 30))
-        self.tbPushButton_2.setStyleSheet("font-size:13px;")
-        self.tbPushButton_2.setCheckable(True)
-        self.tbPushButton_2.setObjectName("tbPushButton_2")
-        self.gridLayout.addWidget(self.tbPushButton_2, 0, 1, 1, 1)
-        self.tbLabel = MovableLabel(parent=self.tbWidget_3)
+        self.tbLabel = QtWidgets.QLabel(parent=self.tbWidget_3)
         self.tbLabel.setMinimumSize(QtCore.QSize(0, 10))
         self.tbLabel.setMaximumSize(QtCore.QSize(16777215, 10))
         self.tbLabel.setText("")
@@ -180,6 +145,3 @@ class Ui_tbWidget(object):
         _translate = QtCore.QCoreApplication.translate
         tbWidget.setWindowTitle(_translate("tbWidget", "Form"))
         self.tbPushButton_4.setText(_translate("tbWidget", ""))
-        self.tbPushButton_3.setText(_translate("tbWidget", "9"))
-        self.tbPushButton.setText(_translate("tbWidget", ""))
-        self.tbPushButton_2.setText(_translate("tbWidget", ""))

@@ -1,13 +1,12 @@
 from PyQt6 import QtWidgets, QtCore
 from components import titleBar, tab, webPage
-from components.browserUi import Ui_Form
+from components.browser import BrowserUI
 import sys
 
-class BrowserApp(QtWidgets.QWidget, Ui_Form):
+class BrowserApp(QtWidgets.QWidget, BrowserUI):
 	def __init__(self):
 		super(BrowserApp, self).__init__()
 		self.setupUi(self)
-		self.setWindowFlags(QtCore.Qt.WindowType.FramelessWindowHint)
 		self.setAttribute(QtCore.Qt.WidgetAttribute.WA_TranslucentBackground)
 
 		self.tabDict = {}
@@ -15,7 +14,7 @@ class BrowserApp(QtWidgets.QWidget, Ui_Form):
 		self.actTab = 0
 		self.tabCount = 0
 
-		self.tBar = titleBar.TitleBar(self)
+		self.tBar = titleBar.TitleBar(parent=self)
 		self.verticalLayout.addWidget(self.tBar)
 		self.addTab()
 		self.tBar.tbPushButton_4.clicked.connect(self.addTab)
