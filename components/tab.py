@@ -1,7 +1,4 @@
-######################################################
-##  SihinaCode > Search YouTube for more tutorials  ##
-######################################################
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt6 import QtCore, QtGui, QtWidgets
 from components.tabUi import Ui_tabWidget
 
 class Tab(QtWidgets.QWidget, Ui_tabWidget):

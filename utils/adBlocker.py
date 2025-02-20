@@ -1,4 +1,4 @@
-from PyQt5 import QtWebEngineCore
+from PyQt6 import QtWebEngineCore
 from adblockparser import AdblockRules
 
 with open("filters.txt", "r", -1, "utf-8") as f:

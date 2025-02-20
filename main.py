@@ -1,4 +1,4 @@
-from PyQt5 import QtWidgets, QtCore
+from PyQt6 import QtWidgets, QtCore
 from components import titleBar, tab, webPage
 from components.browserUi import Ui_Form
 import sys
@@ -7,8 +7,8 @@ class BrowserApp(QtWidgets.QWidget, Ui_Form):
 	def __init__(self):
 		super(BrowserApp, self).__init__()
 		self.setupUi(self)
-		self.setWindowFlags(QtCore.Qt.FramelessWindowHint)
-		self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
+		self.setWindowFlags(QtCore.Qt.WindowType.FramelessWindowHint)
+		self.setAttribute(QtCore.Qt.WidgetAttribute.WA_TranslucentBackground)
 
 		self.tabDict = {}
 		self.tabId = 0

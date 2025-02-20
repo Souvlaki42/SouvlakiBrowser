@@ -1,7 +1,4 @@
-######################################################
-##  SihinaCode > Search YouTube for more tutorials  ##
-######################################################
-from PyQt5 import QtWidgets
+from PyQt6 import QtWidgets
 from components.titleBarUi import Ui_tbWidget
 from components.movableLabel import MovableLabel
 

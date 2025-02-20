@@ -1,15 +1,12 @@
-######################################################
-##  SihinaCode > Search YouTube for more tutorials  ##
-######################################################
-from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWebEngineWidgets import QWebEnginePage, QWebEngineView, QWebEngineSettings, QWebEngineProfile
+from PyQt6 import QtCore, QtGui, QtWidgets
+from PyQt6.QtWebEngineCore import QWebEnginePage, QWebEngineSettings, QWebEngineProfile
+from PyQt6.QtWebEngineWidgets import QWebEngineView
 from components.downloaderUi import Ui_DownloadManager
 from components.webPageUi import Ui_wpWidget
 from utils.adBlocker import AdBlocker
 import os, subprocess, math
 
 from utils.downloadFolder import getDownloadFolder
-from utils.downloadFolderOld import get_download_folder
 
 class WebPage(QtWidgets.QWidget, Ui_wpWidget):
 	def __init__(self, tab = None, tBar = None, main = None, parent = None):
@@ -43,29 +40,29 @@ class WebPage(QtWidgets.QWidget, Ui_wpWidget):
 
 		self.load(self.url)
 
-		self.webEngineView.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
+		self.webEngineView.setContextMenuPolicy(QtCore.Qt.ContextMenuPolicy.CustomContextMenu)
 		self.webEngineView.customContextMenuRequested.connect(self.contextMenu)
 
-		self.webEngineView.settings().setAttribute(QWebEngineSettings.FullScreenSupportEnabled, True)
-		self.webEngineView.settings().setAttribute(QWebEngineSettings.JavascriptCanOpenWindows, True)
-		self.webEngineView.settings().setAttribute(QWebEngineSettings.PluginsEnabled, True)
-		self.webEngineView.settings().setAttribute(QWebEngineSettings.JavascriptEnabled, True)
-		self.webEngineView.settings().setAttribute(QWebEngineSettings.ScreenCaptureEnabled, True)
-		self.webEngineView.settings().setAttribute(QWebEngineSettings.LocalContentCanAccessRemoteUrls, True)
-		self.webEngineView.settings().setAttribute(QWebEngineSettings.AllowRunningInsecureContent, True)
-		self.webEngineView.settings().setAttribute(QWebEngineSettings.AllowGeolocationOnInsecureOrigins, True)
-		self.webEngineView.settings().setAttribute(QWebEngineSettings.AllowWindowActivationFromJavaScript, True)
-		self.webEngineView.settings().setAttribute(QWebEngineSettings.ShowScrollBars, True)
-		self.webEngineView.settings().setAttribute(QWebEngineSettings.WebGLEnabled, True)
-		self.webEngineView.settings().setAttribute(QWebEngineSettings.Accelerated2dCanvasEnabled, True)
-		self.webEngineView.settings().setAttribute(QWebEngineSettings.TouchIconsEnabled, True)
-		self.webEngineView.settings().setAttribute(QWebEngineSettings.AutoLoadIconsForPage, True)
-		self.webEngineView.settings().setAttribute(QWebEngineSettings.JavascriptCanAccessClipboard, True)
-		self.webEngineView.settings().setAttribute(QWebEngineSettings.JavascriptCanPaste, True)
-		self.webEngineView.settings().setAttribute(QWebEngineSettings.WebRTCPublicInterfacesOnly, True)
-		self.webEngineView.settings().setAttribute(QWebEngineSettings.Accelerated2dCanvasEnabled, True)
-		self.webEngineView.settings().setAttribute(QWebEngineSettings.LocalStorageEnabled, True)
-		self.webEngineView.settings().setAttribute(QWebEngineSettings.AutoLoadImages, True)
+		self.webEngineView.settings().setAttribute(QWebEngineSettings.WebAttribute.FullScreenSupportEnabled, True)
+		self.webEngineView.settings().setAttribute(QWebEngineSettings.WebAttribute.JavascriptCanOpenWindows, True)
+		self.webEngineView.settings().setAttribute(QWebEngineSettings.WebAttribute.PluginsEnabled, True)
+		self.webEngineView.settings().setAttribute(QWebEngineSettings.WebAttribute.JavascriptEnabled, True)
+		self.webEngineView.settings().setAttribute(QWebEngineSettings.WebAttribute.ScreenCaptureEnabled, True)
+		self.webEngineView.settings().setAttribute(QWebEngineSettings.WebAttribute.LocalContentCanAccessRemoteUrls, True)
+		self.webEngineView.settings().setAttribute(QWebEngineSettings.WebAttribute.AllowRunningInsecureContent, True)
+		self.webEngineView.settings().setAttribute(QWebEngineSettings.WebAttribute.AllowGeolocationOnInsecureOrigins, True)
+		self.webEngineView.settings().setAttribute(QWebEngineSettings.WebAttribute.AllowWindowActivationFromJavaScript, True)
+		self.webEngineView.settings().setAttribute(QWebEngineSettings.WebAttribute.ShowScrollBars, True)
+		self.webEngineView.settings().setAttribute(QWebEngineSettings.WebAttribute.WebGLEnabled, True)
+		self.webEngineView.settings().setAttribute(QWebEngineSettings.WebAttribute.Accelerated2dCanvasEnabled, True)
+		self.webEngineView.settings().setAttribute(QWebEngineSettings.WebAttribute.TouchIconsEnabled, True)
+		self.webEngineView.settings().setAttribute(QWebEngineSettings.WebAttribute.AutoLoadIconsForPage, True)
+		self.webEngineView.settings().setAttribute(QWebEngineSettings.WebAttribute.JavascriptCanAccessClipboard, True)
+		self.webEngineView.settings().setAttribute(QWebEngineSettings.WebAttribute.JavascriptCanPaste, True)
+		self.webEngineView.settings().setAttribute(QWebEngineSettings.WebAttribute.WebRTCPublicInterfacesOnly, True)
+		self.webEngineView.settings().setAttribute(QWebEngineSettings.WebAttribute.Accelerated2dCanvasEnabled, True)
+		self.webEngineView.settings().setAttribute(QWebEngineSettings.WebAttribute.LocalStorageEnabled, True)
+		self.webEngineView.settings().setAttribute(QWebEngineSettings.WebAttribute.AutoLoadImages, True)
 
 	def fullscreenRequested(self, request):
 		request.accept()
@@ -173,10 +170,7 @@ class WebPage(QtWidgets.QWidget, Ui_wpWidget):
 		percentage = received_bytes / total_bytes * 100
 		return int(math.trunc(percentage))
 	def downloadRequested(self, item):
-		try:
-			item.setDownloadDirectory(getDownloadFolder())
-		except:
-			item.setDownloadDirectory(get_download_folder())
+		item.setDownloadDirectory(getDownloadFolder())
 		self.DownloadManager = QtWidgets.QWidget()
 		self.downloadUi = Ui_DownloadManager()
 		self.downloadUi.setupUi(self.DownloadManager)

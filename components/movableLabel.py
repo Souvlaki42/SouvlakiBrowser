@@ -1,8 +1,4 @@
-######################################################
-##  SihinaCode > Search YouTube for more tutorials  ##
-######################################################
-
-from PyQt5 import QtWidgets, QtCore
+from PyQt6 import QtWidgets, QtCore
 
 class MovableLabel(QtWidgets.QLabel):
     mainWindow = None

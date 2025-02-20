@@ -1,0 +1,23 @@
+version = 1
+revision = 1
+requires-python = ">=3.9"
+
+[[package]]
+name = "adblockparser"
+version = "0.7"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/d3/65/76ede5435428f1ffb62092b0d2ced1a94d2084e2777337754767d88feb51/adblockparser-0.7.tar.gz", hash = "sha256:7a3407ddc31a29e42732bbcb04f3677c6959bffa1ea9d712afd498e0b4d09b22", size = 12919 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/a8/f3/ad0236ef2872e80b4f890ff3b35401439da0fab0210eb98d8e78e2a40a75/adblockparser-0.7-py2.py3-none-any.whl", hash = "sha256:90662a6397d441898e8757553997e0a6cd09c8e56fee4e4ac61b32bda65bad3e", size = 13350 },
+]
+
+[[package]]
+name = "souvlakibrowser"
+version = "0.1.0"
+source = { virtual = "." }
+dependencies = [
+    { name = "adblockparser" },
+]
+
+[package.metadata]
+requires-dist = [{ name = "adblockparser", specifier = ">=0.7" }]
