@@ -1,9 +1,9 @@
 [project]
-name = "souvlakibrowser"
+name = "souvlaki-browser"
 version = "0.1.0"
-description = "Add your description here"
+description = "A simple Pyside6 Chromium web browser"
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.13"
 dependencies = [
-    "adblockparser>=0.7",
+    "pyside6>=6.8.2.1",
 ]
